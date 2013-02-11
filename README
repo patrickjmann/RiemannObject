@@ -1,0 +1,73 @@
+Relativistic Riemann Shock Analytic Solution, No Tangential Velocity
+
+*** Objectified version for Godunov Solution ***
+
+IMPORTANT NOTE:  THIS DOES NOT WORK FOR P=0 WITH NO DISCONTINUITY!!!
+--------------------------------------------------------------------
+Author: P.J.Mann
+Date: May 9, 2010
+
+See the code for details.
+
+See the log below
+--------------------------------------------------------------------
+INSTALLATION
+------------
+(1) Untar the distribution.
+(2) cd ./RiemannObject.1.0 (or latest version number)
+(3) make
+(4) make install
+
+I haven't bothered with a configure file for this simple code.
+Modifications have to be made directly to the Makefile.
+
+Compiler: g++
+Compiler Flags:  -DDebug -g  (short, so not worthwhile optimizing)
+Executable:  rshock_riemann
+Install directory:  $(HOME)/gcc/bin
+
+USAGE
+-----
+(1) Construct a datafile
+
+The simple way is to run "rshock_riemann -d" which generates a
+typical data file "riemann.dat".  Then edit it as required.
+
+The datafile should be called "riemann.dat" and is of the following form:
+----------------------------
+2.0             eos.gamma
+0.25            time required
+8.0             left p
+8.0             left rho0
+0.0             left velocity
+0.0             right p
+2.0             right rho0
+0.0             right velocity
+-0.3            left grid position
+ 0.3            right grid position
+----------------------------
+The order is important (again, nothing flashy here).
+
+(2) Run it with "rshock_riemann".  Output is in "riemann.out" in
+    a form suitable for gnuplot (descriptive comments are included
+    as gnuplot comment lines).
+
+HELP
+----
+Try "rshock_riemann -h" for help.
+==================================================================
+Jul 5, 2010: FIXED and error in flux computation.
+-Now everything balances and it looks like there really is conservation!!!!
+-And the values are converging if more graph (integration) nodes are added.
+      -although quite a few (at least 10000 for say 3 digits accuracy).
+      -probably due to using simple Trapezoidal rule.
+-So now I can add all this into a real Godunov solver.
+-----------------
+May 14, 2010:  added various integrations and tests.  All works.
+-----------------
+May 9, 2010:  all works
+-mass is conserved.
+-switched to a standard class.
+-Class can calculate exact solution at a node.
+-main test program just calls up the node solution on a grid for output.
+   -mass is properly conserved (try large n)
